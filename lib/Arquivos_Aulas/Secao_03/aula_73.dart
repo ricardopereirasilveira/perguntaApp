@@ -1,19 +1,11 @@
 /*
-  63. ADICIONANDO PONTUACAO
+  73. Problema de "iProxy" no Deploy do iOS
 
-  .map((resp) => Resposta(resp['texto'].toString(), quandoResponder)).toList(),
-
-  Agora iremos associar as nossas respostas a uma pontuação
-  Então modificamos o mapa para sempre ter um TEXTO e um PONTUACAO
-  para cada valor informado
-
-  Com isto, dentro de 'questionario.dart' teremos que modificar a lista
-  'respostas' para receber uma Lista de Map que contem String e Objeto
-  List<Map<String, Object>> respostas
-
-
-
-
+    Fala, galera! Tranquilo?
+    Para resolver o problema, basta dar uma conferida no post oficial do GitHub do Flutter
+      : https://github.com/flutter/flutter/issues/42969
+    Aqui são debatidas diversas soluções possíveis para esse problema pela comunidade.
+    Bons estudos!
 
 */
 
@@ -24,43 +16,52 @@ import '../../questionario.dart';
 main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
+  int _pontuacaoTotal = 0;
   var _perguntaSelecionada = 0;
   final List<Map<String, Object>> _perguntas = const [
     {
       'texto': "Qual é a sua cor favorta?",
       'respostas': [
-        {'texto': 'Preto', 'notas': 10},
-        {'texto': 'Vermelho', 'notas': 5},
-        {'texto': 'Verde', 'notas': 3},
-        {'texto': 'Branco', 'notas': 1}
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 5},
+        {'texto': 'Verde', 'pontuacao': 3},
+        {'texto': 'Branco', 'pontuacao': 1}
       ]
     },
     {
       'texto': "Qual é o seu animal favorito",
       'respostas': [
-        {'texto': 'Coelho', 'nota': 10},
-        {'texto': 'Cobra', 'nota': 5},
-        {'texto': 'Elefante', 'nota': 3},
-        {'texto': 'Leão', 'nota': 1},
+        {'texto': 'Coelho', 'pontuacao': 10},
+        {'texto': 'Cobra', 'pontuacao': 5},
+        {'texto': 'Elefante', 'pontuacao': 3},
+        {'texto': 'Leão', 'pontuacao': 1},
       ]
     },
     {
       'texto': "Qual seu instrutor favorito",
       'respostas': [
-        {'texto': 'Maria', 'nota': 10},
-        {'texto': 'João', 'nota': 5},
-        {'texto': 'Leo', 'nota': 3},
-        {'texto': 'Pedro', 'nota': 1},
+        {'texto': 'Maria', 'pontuacao': 10},
+        {'texto': 'João', 'pontuacao': 5},
+        {'texto': 'Leo', 'pontuacao': 3},
+        {'texto': 'Pedro', 'pontuacao': 1},
       ],
     },
   ];
 
-  void _responder() {
+  void _responder(int pontuacao) {
     if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
+  }
+
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
   }
 
   bool get temPerguntaSelecionada {
@@ -79,7 +80,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntas: _perguntas,
                 perguntaSelecionada: _perguntaSelecionada,
                 responder: _responder)
-            : Resultado("Parabéns FDP!"),
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
       ),
     );
   }

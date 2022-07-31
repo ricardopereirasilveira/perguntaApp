@@ -1,14 +1,13 @@
 /*
-  66 - ADICIONANDO PONTUACAO #03
+  71. Executando em Dispositivo Android Real
 
-  Iremos usar a variavel (_pontuacaoTotal) para enviar para dentro do Resultado 
-  (resultado.dart) passando pelo parametro com o construtor
-  dentro do resultado.dart fizemos uma verificação do total de pontos para
-  termos o resultado final, qnd chamado retorna no resultado final
-  uma frase especifica!! Essa frase irá para o texto final, sendo modificando
-  e informando a pontuação!
+  1) Habilitar a opção desenvolvedor;
+  2) Opções do Desenvolvedor > Depuração USB (ativada);
+  3) Insira o Cabo USB 
+  4) Ele ira habilitar um dispositivo dentro do VS Code (barra inferior)
+  5) Da um Start without Debug (ou RUN no main.dart)
+  6) Agora é so verificar dentro do telefone
 
-  
 */
 
 import 'package:flutter/material.dart';
@@ -57,8 +56,13 @@ class _PerguntaAppState extends State<PerguntaApp> {
         _pontuacaoTotal += pontuacao;
       });
     }
+  }
 
-    print(_pontuacaoTotal);
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
   }
 
   bool get temPerguntaSelecionada {
@@ -77,7 +81,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntas: _perguntas,
                 perguntaSelecionada: _perguntaSelecionada,
                 responder: _responder)
-            : Resultado(_pontuacaoTotal),
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
       ),
     );
   }
